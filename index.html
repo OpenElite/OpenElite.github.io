@@ -1,64 +1,57 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--=============== REMIXICONS ===============-->
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="assets/css/styles.css">
-
-        <title>Beautiful glass login form - Bedimcode</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="login__content">
-                <img src="assets/img/bg-login.png" alt="login image" class="login__img">
-
-                <form action="" class="login__form">
-                    <div>
-                        <h1 class="login__title">
-                            <span>Welcome</span> Back
-                        </h1>
-                        <p class="login__description">
-                            Welcome! Please login to continue.
-                        </p>
-                    </div>
-
-                    <div>
-                        <div class="login__inputs">
-                            <div>
-                                <label for="" class="login__label">Email</label>
-                                <input type="email" placeholder="Enter your email address" required class="login__input">
-                            </div>
-                            <div>
-                                <label for="" class="login__label">Password</label>
-                                <div class="login__box">
-                                    <input type="password" placeholder="Enter your password" required class="login__input" id="input-pass">
-                                    <i class="ri-eye-off-line login__eye" id="input-icon"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="login__check">
-                            <input type="checkbox" class="login__check-input">
-                            <label for="" class="login__check-label">Remember me</label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="login__buttons">
-                            <button class="login__button">Log In</button>
-                            <button class="login__button login__button-ghost">Sign Up</button>
-                        </div>
-                        <a href="#" class="login__forgot">Forgot Password?</a>
-                    </div>
-                </form>
-            </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Website With Dark Theme</title>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+           <h3 class="logo">Foodie</h3>
+            <nav>
+               <ul>
+                   <li><a href="">Home</a></li>
+                   <li><a href="">About</a></li>
+                   <li><a href="">Order Now</a></li>
+                   <li><a href="">Services</a></li>
+                   <li><a href="">Contact</a></li>
+               </ul>
+            </nav>
+            <img src="images/moon.png" id="icon">
         </div>
+        <div class="content">
+            <h1>Add a joy of <br><span class="style"> best Taste</span></h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas facilis <br>nobis voluptate fugit vero saepe,at deserunt a esse, quis eius <br>excepturi rerum tempora ipsa ad non aspernatur, consectetur veniam!
+           </p> 
+           <div class="text">
+               <button class="btn">Order Now</button>
+               <div class="social-media">
+                   <a href=""><i class="fa fa-twitter"></i></a>
+                   <a href=""><i class="fa fa-instagram"></i></a>
+                   <a href=""><i class="fa fa-facebook"></i></a>
+               </div>
+           </div>  
+           <img src="images/logo.png" class="image">
+       </div>
 
-        <!--=============== MAIN JS ===============-->
-        <script src="assets/js/main.js"></script>
-    </body>
+       <script>
+
+        var icon = document.getElementById("icon");
+
+        icon.onclick = function() {
+                document.body.classList.toggle("dark-theme");
+
+              if(document.body.classList.contains("dark-theme")) {
+                  icon.src = "images/sun.png";
+              } else {
+                  icon.src = "images/moon.png";
+              }
+        }
+    </script>
+     
+</body>
 </html>
