@@ -1,45 +1,64 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Coming Soon</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-	<div class="page">
-		<div class="countdown-col col">
-			<div id="timer" class="time middle">
-				<span>
-					<div id="d">365</div>
-					Days
-				</span>
-				<span>
-					<div id="h">24</div>
-					Hours
-				</span>
-				<span>
-					<div id="m">60</div>
-					Minutes
-				</span>
-				<span>
-					<div id="s">60</div>
-					Seconds
-				</span>
-			</div>
-		</div>
-		<div class="newsletter-col col">
-			<div class="newsletter middle">
-				<h2>We Will Coming Soon</h2>
-				<h4>Subscribe for get notification when we launched</h4>
-				<form>
-					<input type="text"placeholder="Enter Your Email">
-					<input type="button" value="Subscribe" class="btn">
-				</form>
-			</div>
-		</div>
-	</div>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--=============== REMIXICONS ===============-->
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
-	<script src="function.js"></script>
-</body>
+        <!--=============== CSS ===============-->
+        <link rel="stylesheet" href="assets/css/styles.css">
+
+        <title>Beautiful glass login form - Bedimcode</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="login__content">
+                <img src="assets/img/bg-login.png" alt="login image" class="login__img">
+
+                <form action="" class="login__form">
+                    <div>
+                        <h1 class="login__title">
+                            <span>Welcome</span> Back
+                        </h1>
+                        <p class="login__description">
+                            Welcome! Please login to continue.
+                        </p>
+                    </div>
+
+                    <div>
+                        <div class="login__inputs">
+                            <div>
+                                <label for="" class="login__label">Email</label>
+                                <input type="email" placeholder="Enter your email address" required class="login__input">
+                            </div>
+                            <div>
+                                <label for="" class="login__label">Password</label>
+                                <div class="login__box">
+                                    <input type="password" placeholder="Enter your password" required class="login__input" id="input-pass">
+                                    <i class="ri-eye-off-line login__eye" id="input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="login__check">
+                            <input type="checkbox" class="login__check-input">
+                            <label for="" class="login__check-label">Remember me</label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="login__buttons">
+                            <button class="login__button">Log In</button>
+                            <button class="login__button login__button-ghost">Sign Up</button>
+                        </div>
+                        <a href="#" class="login__forgot">Forgot Password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--=============== MAIN JS ===============-->
+        <script src="assets/js/main.js"></script>
+    </body>
 </html>
