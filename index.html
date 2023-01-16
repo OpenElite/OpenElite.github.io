@@ -1,95 +1,999 @@
-<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>SeGrid Router Dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
+<link rel="shortcut icon" type="image/png" th:href="@{favicon.png}"/>
+<link rel="stylesheet"
+	th:href="|https://unpkg.com/bulmaswatch/${theme}/bulmaswatch.min.css|"
+	href="https://unpkg.com/bulmaswatch/default/bulmaswatch.min.css">
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	function addListItem(ulId, textName) {
+		  var ul = document.getElementById(ulId);
+		  var li = document.createElement("li");
+		  li.appendChild(document.createTextNode(textName));
+		  ul.appendChild(li);
+		  return false;
+		}
+	
+	function showStats() {
+		  document.getElementById("stats").style.display= "block";
+		  document.getElementById("config").style.display= "none";
+		}
+	
+	function showConfig() {
+		  document.getElementById("stats").style.display= "none";
+		  document.getElementById("config").style.display= "block";
+		}
+	
+	function deleteTableRow() {
+	      // event.target will be the input element.
+	      var td = event.target.parentNode; 
+	      var tr = td.parentNode; // the row to be removed
+	      tr.parentNode.removeChild(tr);
+	}
+	function addInstanceTagRow() {
+		var tbodyRef = document.getElementById('instanceTagsTBody');
+		var rowIndex= tbodyRef.getElementsByTagName('tr').length; 
+		var newRow= tbodyRef.insertRow(); 
+		newRow.innerHTML="<td><input id='tags" + rowIndex + ".name' name='tags[" + rowIndex + "].name' value=''></td><td><input id='tags" + rowIndex + ".value' name='tags[" + rowIndex + "].value' value=''></td><td><button type='delete' class='delete' aria-label='delete' onclick='deleteTableRow();'></button></td>";
+	}
+	function addInstanceSubnetRow() {
+		var tbodyRef = document.getElementById('instanceSubnetsTBody');
+		var rowIndex= tbodyRef.getElementsByTagName('tr').length; 
+		var newRow= tbodyRef.insertRow(); 
+		newRow.innerHTML="<td><input id='subnetIds" + rowIndex + "' name='subnetIds[" + rowIndex + "]' value=''></td><td><button type='delete' class='delete' aria-label='delete' onclick='deleteTableRow();'></button></td>";
+	}
+	function addSecurityGroupRow() {
+		var tbodyRef = document.getElementById('instanceSecurityGroupTBody');
+		var rowIndex= tbodyRef.getElementsByTagName('tr').length; 
+		var newRow= tbodyRef.insertRow(); 
+		newRow.innerHTML="<td><input id='securityGroups" + rowIndex + "' name='securityGroups[" + rowIndex + "]' value=''></td><td><button type='delete' class='delete' aria-label='delete' onclick='deleteTableRow();'></button></td>";
+	}
+	</script>
+	<script>
+		$(document).ready(function(){
+			function toggleLogDir() {
+			 if ($('.chkLogs').is(":checked"))
+		       $("#dirLogs").show();
+		     else
+		       $("#dirLogs").hide();
+		     
+		    }
 
-        <!--=============== BOXICONS ===============-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+			toggleLogDir();
 
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="assets/css/styles.css">
+			$('.chkLogs').click(function() {
+				toggleLogDir();
+		    });
+			
+			function toggleVideoDir() {
+				 if ($('.chkVideo').is(":checked"))
+			       $("#dirVideo").show();
+			     else
+			       $("#dirVideo").hide();
+			     
+			}
 
-        <title>Responsive bottom navigation</title>
-    </head>
-    <body>
-        <!--=============== HEADER ===============-->
-        <header class="header" id="header">
-            <nav class="nav container">
-                <a href="#" class="nav__logo">Marlon</a>
+			toggleVideoDir();
 
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
-                        <li class="nav__item">
-                            <a href="#home" class="nav__link active-link">
-                                <i class='bx bx-home-alt nav__icon'></i>
-                                <span class="nav__name">Home</span>
-                            </a>
-                        </li>
-                        
-                        <li class="nav__item">
-                            <a href="#about" class="nav__link">
-                                <i class='bx bx-user nav__icon'></i>
-                                <span class="nav__name">About</span>
-                            </a>
-                        </li>
+			$('.chkVideo').click(function() {
+				toggleVideoDir();
+		    });
+		});
+	</script>
+	<style type="text/css">
+	section {
+		width: 100%;
+		height: 100vh;
+	}
+	
+	/* body {
+		zoom: 100%;
+	} */
+	</style>
+</head>
+<!-- <body onload="showStats()"> -->
+<body class="has-navbar-fixed-top">
+	<nav class="navbar is-transparent is-fixed-top " role="navigation"
+		aria-label="main navigation">
+		<div class="navbar-brand">
+			<a class="navbar-item"> <img
+				src="logo/SeGrid-logo_transparent_white_1000x250.png">
+			</a>
+			<!--<a class="navbar-item" style="font-size: 1.5vw"> #SeGrid </a> -->
+			<a role="button" class="navbar-burger" aria-label="menu"
+				aria-expanded="false" data-target="navbarBasicExample"> <span
+				aria-hidden="true"></span> <span aria-hidden="true"></span> <span
+				aria-hidden="true"></span>
+			</a>
+		</div>
 
-                        <li class="nav__item">
-                            <a href="#skills" class="nav__link">
-                                <i class='bx bx-book-alt nav__icon'></i>
-                                <span class="nav__name">Skills</span>
-                            </a>
-                        </li>
+		<div id="navbarBasicExample" class="navbar-menu">
+			<div class="navbar-start">
+				<!-- 				<a class="navbar-item" onclick="showStats();"> Stats </a>  -->
+				<!-- 				<a class="navbar-item" onclick="showConfig();"> Configuration </a> -->
+				<a class="navbar-item" href=""> Home </a>
 
-                        <li class="nav__item">
-                            <a href="#portfolio" class="nav__link">
-                                <i class='bx bx-briefcase-alt nav__icon'></i>
-                                <span class="nav__name">Portfolio</span>
-                            </a>
-                        </li>
 
-                        <li class="nav__item">
-                            <a href="#contactme" class="nav__link">
-                                <i class='bx bx-message-square-detail nav__icon'></i>
-                                <span class="nav__name">Contactme</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link"> Credits </a>
 
-                <img src="assets/img/perfil.png" alt="" class="nav__img">
-            </nav>
-        </header>
+					<div class="navbar-dropdown">
+						<!-- <a class="navbar-item"> About </a> -->
+						<a target="_blank" class="navbar-item" href="https://bulma.io">
+							<img src="https://bulma.io/images/made-with-bulma.png"
+							alt="Made with Bulma" width="128" height="24">
+						</a>
+						<hr class="navbar-divider">
+						<a target="_blank" class="navbar-item"
+							href="https://jenil.github.io/bulmaswatch/"> Themes by
+							Bulmaswatch </a>
+						<hr class="navbar-divider">
+						<a target="_blank" class="navbar-item"
+							href="https://aerokube.com/selenoid/"> Aerokube's Selenoid </a>
 
-        <main>
-            <!--=============== HOME ===============-->
-            <section class="container section section__height" id="home">
-                <h2 class="section__title">Home</h2>
-            </section>
+					</div>
+				</div>
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link"> More </a>
 
-            <!--=============== ABOUT ===============-->
-            <section class="container section section__height" id="about">
-                <h2 class="section__title">About</h2>
-            </section>
+					<div class="navbar-dropdown">
+						<!-- <a class="navbar-item"> About </a> -->
+						<a class="navbar-item" href="mailto:hello@segrid.io"> Contact
+						</a>
+						<hr class="navbar-divider">
+						<a class="navbar-item" target="_blank"
+							href="https://github.com/segrid/SeGridRouter-Releases/issues">
+							Report an issue </a>
+						<hr class="navbar-divider">
+						<a class="navbar-item" target="_blank"
+							href="https://github.com/segrid/SeGridRouter-Releases/issues">
+							Feature Requests </a>
+					</div>
+				</div>
+			</div>
 
-            <!--=============== SKILLS ===============-->
-            <section class="container section section__height" id="skills">
-                <h2 class="section__title">Skills</h2>
-            </section>
+			<div class="navbar-end">
+				<div class="navbar-item has-dropdown is-hoverable">
+					<a class="navbar-link"> Themes </a>
+					<div class="navbar-dropdown is-boxed">
+						<div class="columns">
+							<div class="column">
+								<a
+									th:class="|navbar-item ${theme == 'default' ? 'is-active': ''}|"
+									href="theme/default">Default </a> <a
+									th:class="|navbar-item ${theme == 'cerulean' ? 'is-active': ''}|"
+									href="theme/cerulean">Cerulean </a> <a
+									th:class="|navbar-item ${theme == 'cosmo' ? 'is-active': ''}|"
+									href="theme/cosmo"> Cosmo </a> <a
+									th:class="|navbar-item ${theme == 'cyborg' ? 'is-active': ''}|"
+									href="theme/cyborg"> Cyborg </a> <a
+									th:class="|navbar-item ${theme == 'darkly' ? 'is-active': ''}|"
+									href="theme/darkly"> Darkly </a> <a
+									th:class="|navbar-item ${theme == 'flatly' ? 'is-active': ''}|"
+									href="theme/flatly"> Flatly </a> <a
+									th:class="|navbar-item ${theme == 'journal' ? 'is-active': ''}|"
+									href="theme/journal"> Journal </a> <a
+									th:class="|navbar-item ${theme == 'litera' ? 'is-active': ''}|"
+									href="theme/litera"> Litera </a> <a
+									th:class="|navbar-item ${theme == 'lumen' ? 'is-active': ''}|"
+									href="theme/lumen"> Lumen </a> <a
+									th:class="|navbar-item ${theme == 'lux' ? 'is-active': ''}|"
+									href="theme/lux"> Lux </a> <a
+									th:class="|navbar-item ${theme == 'materia' ? 'is-active': ''}|"
+									href="theme/materia"> Materia </a>
+							</div>
+							<div class="column">
+								<a
+									th:class="|navbar-item ${theme == 'minty' ? 'is-active': ''}|"
+									href="theme/minty"> Minty </a> <a
+									th:class="|navbar-item ${theme == 'nuclear' ? 'is-active': ''}|"
+									href="theme/nuclear"> Nuclear </a> <a
+									th:class="|navbar-item ${theme == 'pulse' ? 'is-active': ''}|"
+									href="theme/pulse"> Pulse </a> <a
+									th:class="|navbar-item ${theme == 'sandstone' ? 'is-active': ''}|"
+									href="theme/sandstone"> Sandstone </a> <a
+									th:class="|navbar-item ${theme == 'simplex' ? 'is-active': ''}|"
+									href="theme/simplex"> Simplex </a> <a
+									th:class="|navbar-item ${theme == 'slate' ? 'is-active': ''}|"
+									href="theme/slate"> Slate </a> <a
+									th:class="|navbar-item ${theme == 'solar' ? 'is-active': ''}|"
+									href="theme/solar"> Solar </a> <a
+									th:class="|navbar-item ${theme == 'spacelab' ? 'is-active': ''}|"
+									href="theme/spacelab"> Spacelab </a> <a
+									th:class="|navbar-item ${theme == 'superhero' ? 'is-active': ''}|"
+									href="theme/superhero"> Superhero </a> <a
+									th:class="|navbar-item ${theme == 'united' ? 'is-active': ''}|"
+									href="theme/united"> United </a> <a
+									th:class="|navbar-item ${theme == 'yeti' ? 'is-active': ''}|"
+									href="theme/yeti"> Yeti </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="navbar-item" th:if="${routerMode} == 'STANDALONE'">
+					<form th:object="${routerMode}" method="post" action="#"
+						th:action="@{/swithToLoadBalancerMode}"
+						onsubmit="return confirm('This will set SeGrid Router operating mode to Load Balancer. Existing sessions will continue to work, but new sessions will require individual selenoid instances to be running.\n\nMONEY TALK. IN CASE YOU ARE RUNNING AS A SUBSCRIPTION FROM CLOUD, LOAD BALANCER REPLICATE INSTANCES FOR AUTO SCALING AND YOU WILL BE CHARGED BY CLOUD PROVIDER FOR EACH RUNNING INSTANCE. \n\nDo you want to continue?');">
+						<div class="level-item">
+							<button
+								class="button is-primary button is-info is-small is-fullwidth"
+								type="submit">Switch to Load Balancer</button>
+						</div>
+					</form>
+				</div>
+				<div class="navbar-item" th:if="${routerMode} != 'STANDALONE'">
+					<form th:object="${routerMode}" method="post" action="#"
+						th:action="@{/swithToStandaloneMode}"
+						onsubmit="return confirm('This will set SeGrid Router operating mode to STANDALONE. Any current sessions in progress will break, and any instance started by this program will be terminated right away.\n\nDo you want to continue?');">
+						<div class="level-item">
+							<button
+								class="button is-primary button is-info is-small is-fullwidth"
+								type="submit">Switch to Standalone</button>
+						</div>
+					</form>
+				</div>
+				<div class="navbar-item">
+					<form th:object="${appInfo}" method="post" action="#"
+						th:action="@{/updateToLatest}"
+						onsubmit="return confirm('This will update SeGrid Router to latest version. This application will be restarted, causing any ongoing sessions to break.');">
+						<div class="level-item">
+							<span th:text="|v${appInfo.getCurrentVersion()}|">version</span>
+							<button
+								th:if="${appInfo.currentVersion} != ${appInfo.latestVersion}"
+								class="button is-primary button is-info is-small is-fullwidth"
+								type="submit" th:text="|Upgrade to ${appInfo.latestVersion}|">Upgrade
+								to Latest</button>
+						</div>
+					</form>
 
-            <!--=============== PORTFOLIO ===============-->
-            <section class="container section section__height" id="portfolio">
-                <h2 class="section__title">Portfolio</h2>
-            </section>
+					<!-- <div class="buttons">
+						<a class="button is-primary"> <strong>Sign up</strong>
+						</a> <a class="button is-light"> Log in </a>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- <section id="dashboard"></section>
+	<section id="config"></section> -->
+	<div class="columns container is-fluid">
+		<div class="column is-6">
+			<h2 class="subtitle content">Browser Configurations</h2>
+			<div class="content is-normal">
+				<blockquote>
+					Start here! Download default browser configurations, add or
+					remove browser versions, and upload it back. Refer to <a
+						target="_blank"
+						href="https://aerokube.com/selenoid/latest/#_browsers_configuration_file">selenoid
+						configuration guide</a> for advanced configuration options.
+				</blockquote>
+			</div>
+			<div class="columns">
+				<div class="column is-2">
+					<form method="get" action="#" th:action="@{/config/browsersRaw}">
+						<div class="level-item">
+							<button type="submit"
+								class="button is-info is-small is-fullwidth">Download</button>
+						</div>
+					</form>
+				</div>
+				<div class="column is-fullwidth">
+					<form method="post" enctype="multipart/form-data" action="#"
+						th:action="@{/config/browsers}"
+						onsubmit="return confirm('If you adding new browser images, pulling those images will happen on the server right away, which might take some time. \n\nDo you want to continue?');">
+						<div class="file has-name is-small field is-fullwidth"
+							id="file-upload-config">
+							<label class="file-label"> <input
+								class="file-input is-small" type="file" name="file"> <span
+								class="file-cta"> <span class="file-icon"> <ion-icon
+											name="cloud-upload"></ion-icon>
+								</span> <span class="file-label"></span>
+							</span> <span class="file-name"> select browsers.json to upload </span>
+							</label>
+							<p class="control">
+								<input type="submit" class="button is-info is-small fa-upload"
+									value="Upload" />
+							</p>
+						</div>
+						<script>
+        const instanceInput = document.querySelector('#file-upload-config input[type=file]');
+        instanceInput.onchange = () => {
+          if (instanceInput.files.length > 0) {
+            const fileName = document.querySelector('#file-upload-config .file-name');
+            fileName.textContent = instanceInput.files[0].name;
+          }
+        }
+      </script>
+					</form>
+				</div>
+				<div class="column is-2">
+					<form method="get" action="#" th:action="@{/log/download}">
+						<div class="level-item">
+							<button type="submit"
+								class="button is-info is-small is-pulled-right is-fullwidth">View
+								Logs</button>
+						</div>
+					</form>
+				</div>
+			</div>
 
-            <!--=============== CONTACTME ===============-->
-            <section class="container section section__height" id="contactme">
-                <h2 class="section__title">Contactme</h2>
-            </section>
-        </main>
-        
+			<div th:if="${routerMode} != 'STANDALONE'">
+				<h3 class="subtitle">Instance Configuration</h3>
+				<div class="content is-normal">
+					<blockquote>New cloud instances will be launched when
+						sessions are requested using configurations shown below. If there
+						is anything need change, download current config above, make
+						changes and upload back.</blockquote>
+				</div>
+				<!-- <div class="content is-normal">
+					<blockquote>Download instance configuration for
+						advance level changes and upload it back.</blockquote>
+				</div>
+				<div class="columns">
+					<div class="column is-2">
+						<form method="get" action="#" th:action="@{/config/instanceType}">
+							<div class="level-item">
+								<button type="submit"
+									class="button is-info is-small is-fullwidth">Download</button>
+							</div>
+						</form>
+					</div>
+					<div class="column is-fullwidth">
+						<form method="post" enctype="multipart/form-data" action="#"
+							th:action="@{/config/instanceType}">
+							<div class="file has-name is-small field is-fullwidth"
+								id="file-upload-instance">
+								<label class="file-label"> <input
+									class="file-input is-small" type="file" name="file"> <span
+									class="file-cta"> <span class="file-icon"> <ion-icon
+												name="cloud-upload"></ion-icon>
+									</span> <span class="file-label"></span>
+								</span> <span class="file-name"> select file to upload </span>
+								</label>
+								<p class="control">
+									<input type="submit" class="button is-info is-small fa-upload"
+										value="Upload Instance Config" />
+								</p>
+							</div>
 
-        <!--=============== MAIN JS ===============-->
-        <script src="assets/js/main.js"></script>
-    </body>
+							<script>
+        const fileInput = document.querySelector('#file-upload-instance input[type=file]');
+        fileInput.onchange = () => {
+          if (fileInput.files.length > 0) {
+            const fileName = document.querySelector('#file-upload-instance .file-name');
+            fileName.textContent = fileInput.files[0].name;
+          }
+        }
+      </script>
+						</form>
+					</div>
+				</div> -->
+				<form action="#" th:action="@{/config/instance}"
+					th:object="${instanceConfig}" method="post">
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">InstanceType</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<select class="select is-primary is-small" id="instanceType"
+										name="instanceType"
+										onchange="var s=document.querySelector('#instanceType'); document.getElementById('maxSessions').value= s.options[s.selectedIndex].getAttribute('size');">
+										<option value="">Select Instance Type</option>
+										<option th:each="instanceType : ${instanceTypes}"
+											th:value="${instanceType.name}"
+											th:text="|${instanceType.name} : max ${instanceType.maxSessions} sessions|"
+											th:selected="${instanceType.name eq instanceConfig.instanceType}"
+											th:size="|${instanceType.maxSessions}|">
+										</option>
+									</select>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Scaling Mode</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<select class="select is-primary is-small" id="scalingMode" name="scalingMode">
+										<option th:each="scalingMode : ${scalingModes}"
+											th:value="${scalingMode}"
+											th:text="${scalingMode}"
+											th:selected="${scalingMode eq instanceConfig.scalingMode}">
+										</option>
+									</select>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Max Sessions/ Instance</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{maxSessions}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Max Instances</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{maxInstances}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">ImageId</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{imageId}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Image Disk Size (gb)</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="number"
+										th:field="*{imageDiskSize}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Region</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{region}" readonly>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Arn</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{arn}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Name Prefix</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{namePrefix}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Key Pair Name</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{keyPair}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Min Free Sessions</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{minAvailableSessions}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small"></div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<label class="checkbox" th:for="${#ids.next('enableLogs')}">
+									  <input type="checkbox" class="chkLogs" th:field="*{enableLogs}">
+									  Enable Session Logs
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="dirLogs" class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Logs Directory</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{logLocation}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small"></div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<label class="checkbox" th:for="${#ids.next('enableVideo')}">
+									  <input type="checkbox" class="chkVideo" th:field="*{enableVideo}">
+									  Enable Video Recording
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="dirVideo" class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Video Directory</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{videoLocation}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Security Groups <span
+								class="icon large" onclick="addSecurityGroupRow();"> <ion-icon
+										name="add-circle-outline"></ion-icon>
+							</span></label>
+
+						</div>
+						<div class="field-body">
+							<div class="content is-small">
+								<table class="table is-striped is-fullwidth">
+									<tbody id="instanceSecurityGroupTBody">
+										<tr
+											th:each="securityGroup,secStat : ${instanceConfig.securityGroups}">
+											<td class="content is-small"><input
+												th:field="${instanceConfig.securityGroups[__${secStat.index}__]}"></input></td>
+											<td class="content is-small"><button type="delete"
+													class="delete" aria-label="delete"
+													onclick="deleteTableRow()"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Subnets <span class="icon"
+								onclick="addInstanceSubnetRow();"> <ion-icon
+										name="add-circle-outline"></ion-icon>
+							</span></label>
+
+						</div>
+						<div class="field-body">
+							<div class="content is-small">
+								<table class="table is-striped is-fullwidth">
+									<tbody id="instanceSubnetsTBody">
+										<tr th:each="subnet,subnetStat : ${instanceConfig.subnetIds}">
+											<td class="content is-small"><input
+												th:field="${instanceConfig.subnetIds[__${subnetStat.index}__]}"></input></td>
+											<td class="content is-small"><button type="delete"
+													class="delete" aria-label="delete"
+													onclick="deleteTableRow()"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Instance Tags<span class="icon"
+								onclick="addInstanceTagRow();"> <ion-icon
+										name="add-circle-outline"></ion-icon>
+							</span></label>
+						</div>
+						<div class="field-body">
+							<div class="content is-small">
+								<table class="table">
+									<thead>
+										<tr>
+											<th class="content is-small"><abbr title="Tag Name">Key</abbr></th>
+											<th class="content is-small"><abbr title="Tag Value">Value</abbr></th>
+											<th class="content is-small"></th>
+										</tr>
+									</thead>
+									<tbody id="instanceTagsTBody">
+										<tr th:each="tag,tagStat : ${instanceConfig.tags}">
+											<td class="content is-small"><input
+												th:field="${instanceConfig.tags[__${tagStat.index}__].name}"></input></td>
+											<td class="content is-small"><input
+												th:field="${instanceConfig.tags[__${tagStat.index}__].value}"></input></td>
+											<td class="content is-small"><button type="delete"
+													class="delete" aria-label="delete"
+													onclick="deleteTableRow()"></button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Init Script</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<textarea class="textarea is-primary is-small" th:field="*{initScript}" placeholder="#!/bin/bash"></textarea>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-pulled-right is-grouped">
+						<div class="control">
+							<input class="button is-small is-info" type="submit"
+								value="Submit" />
+						</div>
+						<!-- <div class="control">
+							<input type="reset" class="button is-small" value="Reset" />
+						</div> -->
+					</div>
+				</form>
+
+			</div>
+			<div th:if="${routerMode} == 'STANDALONE'">
+				<h3 class="subtitle">Selenoid Configuration</h3>
+				<form action="#" th:action="@{/config/instance}"
+					th:object="${instanceConfig}" method="post">
+					<div class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Max Sessions</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{maxSessions}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small"></div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<label class="checkbox" th:for="${#ids.next('enableLogs')}">
+									  <input type="checkbox" class="chkLogs" th:field="*{enableLogs}">
+									  Enable Session Logs
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="dirLogs" class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Logs Directory</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{logLocation}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-horizontal">
+						<div class="field-label is-small"></div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<label class="checkbox" th:for="${#ids.next('enableVideo')}">
+									  <input type="checkbox" class="chkVideo" th:field="*{enableVideo}">
+									  Enable Video Recording
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div id="dirVideo" class="field is-horizontal">
+						<div class="field-label is-small">
+							<label class="label">Video Directory</label>
+						</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control">
+									<input class="input is-primary is-small" type="text"
+										th:field="*{videoLocation}">
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="field is-pulled-right is-grouped">
+						<div class="control">
+							<input class="button is-small is-info" type="submit"
+								value="Submit" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+		<div class="column is-6">
+			<div th:if="${configStatus == 'ready'}">
+				<div th:if="${dockerReady == 'true'}">
+					<h2 class="subtitle content">Webdriver URL</h2>
+					<blockquote >
+						<a th:text="|${hubURL}|"
+							th:href="|${hubURL}|"></a>
+					</blockquote>
+				</div>
+				<!-- <blockquote th:if="${dockerReady == 'false'}" class="content is-normal">
+					Required docker images are being pulled on server, please refresh
+					in sometime to view URL to be used for selenium webdriver instances</a>
+					<div class="field is-horizontal">
+						<div class="field-body">
+							<div class="content is-small">
+								<table class="table">
+									<thead>
+										<tr>
+											<th class="content is-small"><abbr title="Tag Name">Image</abbr></th>
+											<th class="content is-small"><abbr title="Tag Value">Status</abbr></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="image : ${dockerImages}">
+											<td th:text="${image.key}"></td>
+											<td th:text="${image.value}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</blockquote> -->
+			</div>
+			<div id="statusInfo" th:fragment="statusInfo">
+				<form th:object="${configStatus}" method="post" action="#"
+					th:action="@{/clearMsg}"
+					th:if="${configStatus == 'ready' and not #lists.isEmpty(configStatusMsgs)}">
+					<article class="message is-success">
+						<div class="message-header">
+							<p>Woo-hoo!</p>
+							<button type="submit" class="delete" aria-label="delete"></button>
+						</div>
+						<div class="message-body" th:text="|${configStatusMsgs[0]}|"></div>
+					</article>
+				</form>
+				<form th:object="${configStatus}" method="post" action="#"
+					th:action="@{/revalidate}" th:if="${configStatus} == 'error'">
+					<article class="message is-danger">
+						<div class="message-header">
+							<p>Looks like all is not well!</p>
+							<button type="submit" class="delete" aria-label="retry"></button>
+						</div>
+						<ul th:each="configStatusMsg: ${configStatusMsgs}">
+							<li class="message-body" th:text="|${configStatusMsg}|"></li>
+						</ul>
+					</article>
+				</form>
+			</div>
+			<!-- <div th:if="${sessionHisory != null}">
+				<h2 class="subtitle">Session History</h2>
+				<table class="table is-fullwidth has-text-left">
+					<thead class="content is-small">
+						<tr>
+							<th><abbr th:title="|Live Running Sessions|">Live</abbr></th>
+							<th><abbr th:title="|Pending Requests|">Queued</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('1hourDate')}|">This
+									Hour</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('8hourDate')}|">Last
+									8 Hours</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('24hourDate')}|">Last
+									24 Hours</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('sinceThisWeekDate')}|">This
+									Week</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('sinceThisMonthDate')}|">This
+									Month</abbr></th>
+							<th><abbr
+								th:title="|Since ${sessionHisory.get('sinceThisYearDate')}|">This
+									Year</abbr></th>
+							<th><abbr th:title="|Entire lifetime of this server|">Lifetime</abbr></th>
+						</tr>
+					</thead>
+					<tbody class="content is-small">
+						<tr>
+							<td th:text="${sessionHisory.get('live')}"></td>
+							<td th:text="${sessionHisory.get('queued')}"></td>
+							<td th:text="${sessionHisory.get('1hourCount')}"></td>
+							<td th:text="${sessionHisory.get('8hourCount')}"></td>
+							<td th:text="${sessionHisory.get('24hourCount')}"></td>
+							<td th:text="${sessionHisory.get('sinceThisWeekCount')}"></td>
+							<td th:text="${sessionHisory.get('sinceThisMonthCount')}"></td>
+							<td th:text="${sessionHisory.get('sinceThisYearCount')}"></td>
+							<td th:text="${sessionHisory.get('lifetime')}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div> -->
+		<br/>
+			<h2 class="subtitle">Cloud Instances</h2>
+			<table class="table is-fullwidth has-text-left">
+				<thead class="content is-small">
+					<tr>
+						<th><abbr title="Instance Name">Name</abbr></th>
+						<th><abbr title="Instance Id">Instance Id</abbr></th>
+						<th><abbr title="Instance Type">Size</abbr></th>
+						<th><abbr title="Instance Status">Instance State</abbr></th>
+						<th><abbr title="Selenium Hub Status">Selenium Ready?</abbr></th>
+						<th><abbr title="Instance Loading">Loading</abbr></th>
+						<!-- <th><abbr title="Dashboard URL">Dashboard</abbr></th> -->
+						<th><abbr title="Instance Level Actions (Carefull!)"></abbr></th>
+					</tr>
+				</thead>
+				<tbody class="content is-small">
+					<tr th:if="${#lists.isEmpty(instances)}">
+						<td colspan="7">There are no instances running at the moment.</td>
+					</tr>
+					<tr th:each="instance : ${instances}">
+						<td th:text="${instance.instanceName}"></td>
+						<td th:text="${instance.instanceId}"></td>
+						<td th:text="${instance.instanceType}"></td>
+						<td th:text="${instance.instanceState}"></td>
+						<td th:text="${instance.hubReady}"></td>
+						<td><span th:text="${instance.currentSessionsCount}"></span>
+							of <span th:text="${instance.maxSessions}"></span></td>
+						<!-- <td><a th:href="|${instance.dashboradUrl}|" target="_blank">UI</a></td> -->
+						<td>
+							<span>
+								<form title="Refresh" method="post" action="#" th:action="|instance/refresh/${instance.instanceId}|" style="display:inline;">
+									<button class="has-text-success" type="submit" aria-label="Refresh"><ion-icon name="refresh-circle"></ion-icon></button>
+								</form>
+								<form title="Terminate" method="post" action="#" th:action="|instance/terminate/${instance.instanceId}|" style="display:inline;">
+									<button class="has-text-danger"  type="submit" aria-label="Terminate"><ion-icon name="trash"></ion-icon></button>
+								</form>
+								<!-- <a class="icon has-text-success" title="Refresh" th:href="|instance/refresh/${instance.instanceId}|">
+									<ion-icon name="refresh-circle"></ion-icon>
+								</a> -->
+								<!-- <a class="icon has-text-danger" title="Terminate Instance" th:href="|instance/terminate/${instance.instanceId}|" target="_blank">
+									<ion-icon name="trash">
+									</ion-icon>
+								</a> -->
+							</span>
+							<span th:switch="${instance.instanceState}">
+								<form th:case="'running'" title="Stop Instance" method="post" action="#" th:action="|instance/stop/${instance.instanceId}|" style="display:inline;">
+									<button type="submit" class="has-text-danger"  aria-label="stop"><ion-icon name="stop-circle-outline"></ion-icon></button>
+								</form>
+								<form th:case="'stopped'" title="Start Instance" method="post" action="#" th:action="|instance/start/${instance.instanceId}|" style="display:inline;">
+									<button type="submit" class="has-text-success" aria-label="start"><ion-icon name="play-circle-outline"></ion-icon></button>
+								</form>
+								<!-- <a th:case="'running'" class="icon has-text-danger" title="Stop Instance" th:href="|instance/stop/${instance.instanceId}|"> 
+									<ion-icon name="stop-circle-outline"></ion-icon>
+								</a>
+								<a th:case="'stopped'" class="icon has-text-success" title="Start Instance" th:href="|instance/start/${instance.instanceId}|"> 
+									<ion-icon name="play-circle-outline">
+									</ion-icon>
+								</a>  -->
+								<span th:case="*" class="icon" title="Cannot start/ stop in current state"> 
+									<ion-icon name="hand-left"></ion-icon>
+								</span>
+							</span>
+							<a class="icon has-text-success" title="Get Instance Logs" th:href="|instance/initLogs/${instance.instanceId}|" target="_blank"> 
+								<ion-icon name="document-text-outline">
+								</ion-icon>
+							</a> 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div th:if="${routerMode} != 'STANDALONE'">
+				<div class="columns">
+					<div class="column is-3">
+						<form th:if="${dockerReady == 'true'}" method="post" action="#" id="instanceCountForm"
+							th:action="@{/instance/launch}">
+							<div class="level-item">
+								<select class="select is-primary is-small" id="instanceCount" name="instanceCount"
+								onchange="document.getElementById('instanceCountForm').setAttribute('action', 'instance/launch/' + document.getElementById('instanceCount').value);" >
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+									</select>
+								<button type="submit"
+									class="button is-info is-small is-fullwidth">Launch Instance/s</button>
+							</div>
+						</form>
+					</div>
+					<div class="column is-3">
+						<form th:if="${dockerReady == 'true'}" method="post" action="#" id="instanceRefreshAllForm"
+							th:action="@{/instance/refresh/all}">
+							<div class="level-item">
+								<button type="submit"
+									class="button is-info is-small is-fullwidth">Refresh All Instances</button>
+							</div>
+						</form>
+					</div>
+					<div class="column is-3"></div>
+					<div class="column is-3">
+						<form method="post" action="#" th:action="@{/shutdown}"
+							onsubmit="return confirm('You requested for a shutdown. This will terminate all current running instances attached to this application (irrespective of cleanup configurations), and stop itself. \n\nYou will need to manually start service. \n\nDo not do this if you do not have access to instance in order to be able to restart the service.');">
+							<div class="level-item">
+								<button type="submit"
+									class="button is-danger is-small is-fullwidth">Terminate All</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 </html>
